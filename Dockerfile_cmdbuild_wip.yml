@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:
+
+  # External dependencies
+  tomcat:
+    image: tomcat:8.5.42-jdk8
+    restart: always
+    volumes:
+      - "/home/stefano/workspace/cmdbuild_stable/:/webapps/cmdbuild"
+    ports:
+      - 9090:8080
+    
