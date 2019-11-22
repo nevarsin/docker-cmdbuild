@@ -3,6 +3,9 @@ FROM tomcat:8.5.46-jdk8
 #Ports
 EXPOSE 8080/tcp
 
+#Psql libs
+RUN apt-get update && apt-get install -y libpq5
+
 #Copy conf and libs
 WORKDIR /usr/local/tomcat
 COPY conf/database.conf conf/cmdbuild/
