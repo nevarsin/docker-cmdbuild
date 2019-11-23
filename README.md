@@ -29,11 +29,21 @@ This image supports several parameters to be set as environment variables:
 
 NOTE: PostgreSQL admin credentials are required in order to install the PostGIS PSQL extension required by the GIS Server (optional)
 
-## Docker run Example
+## Docker run
 
 `docker run --name cmdbuild -p 8080:8080 -e DB_HOST=dbhostname.domain -e DB_PORT=5432 -e DB_NAME=cmdbuild -e DB_TYPE=ready2use_demo -e CMDBUILD_USERNAME=cmdbuild -e CMDBUILD_PASSWORD=password -e POSTGRES_USERNAME=postgres -e POSTGRES_PASSWORD=postgres trepz/cmdbuild:3.1.1`
 
-**Docker-compose and Kubernetes deployment templates coming soon**
+## Docker compose/Swarm stack
+
+Please download the [docker-compose.yml](https://github.com/nevarsin/docker-cmdbuild/blob/master/docker-compose.yml) file from the repo
+
+### Docker Compose
+`docker-compose -f docker-compose.yml -d up`
+
+### Swarm stack
+`docker stack deploy -d docker-compose.yml cmdbuild`
+
+**Kubernetes deployment templates coming soon**
 
 ## Access
 Once the container is running (the startup phase can take up to a minute, depending on your host) you can access it via a web browser:

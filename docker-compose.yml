@@ -1,20 +1,24 @@
-version: '3.1'
+version: '2.1'
 
 #Set up PostgreSQL 10.x first
 services:
 
-  db:
-    image: postgres:10-alpine
-    #name: postgres 
+  postgres:
+    # This image is used because of the native PostGIS module installation
+    image: mdillon/postgis:9.5-alpine    
     restart: always
     environment:
       - POSTGRES_PASSWORD=yourpassword
     networks:
       - cmdbuild 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   cmdbuild:
-    image: trepz/cmdbuild:3.1.1
-    #name: cmdbuild
+    image: trepz/cmdbuild:3.1.1    
     restart: always
     environment:
       - DB_HOST=postgres
@@ -29,6 +33,9 @@ services:
       - "8080:8080"
     networks:
       - cmdbuild
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 networks:
   cmdbuild:
