@@ -11,9 +11,9 @@ COPY conf/tomcat-users.xml conf/
 RUN rm -rf webapps/*
 
 #Copy CMDBuild war file
-COPY cmdbuild.war webapps/cmdbuild/
+RUN wget https://sourceforge.net/projects/cmdbuild/files/3.1.1/cmdbuild-3.1.1.war/download -O webapps/cmdbuild/cmdbuild.war
 WORKDIR /usr/local/tomcat/webapps/cmdbuild
-RUN jar -xvf cmdbuild.war
+RUN jar -xvf cmdbuild.war && rm -rf cmdbuild.war
 
 #Creating user as CMDBuild won't start when Tomcat is ran as root
 RUN adduser --disabled-password --gecos '' r
