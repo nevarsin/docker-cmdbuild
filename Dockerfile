@@ -4,7 +4,7 @@ FROM tomcat:8.5.46-jdk8
 EXPOSE 8080/tcp
 
 #Psql libs
-RUN apt-get update && apt-get install -y libpq5
+RUN apt-get update && apt-get install -y libpq5 && rm -rf /var/lib/apt/lists/*
 
 #Copy conf and libs
 WORKDIR /usr/local/tomcat
@@ -19,9 +19,7 @@ WORKDIR /usr/local/tomcat/webapps/cmdbuild
 RUN jar -xvf cmdbuild.war && rm -rf cmdbuild.war
 
 #Creating user as CMDBuild won't start when Tomcat is ran as root
-RUN adduser --disabled-password --gecos '' r
-RUN adduser r sudo
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN adduser --disabled-password --gecos '' r && adduser r sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN chown -R r:r /usr/local/tomcat
 
 #Copy init script 
